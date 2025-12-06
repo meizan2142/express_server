@@ -1,10 +1,14 @@
 import express, { Request, Response } from "express"
-
+import { Pool } from "pg"
 
 const app = express()
 const port = 5000
 app.use(express.json());
 // app.use(express.urlencoded())
+
+const pool = new Pool({
+    connectionString: `postgresql://neondb_owner:npg_zCsZaD7Hby1P@ep-rapid-lake-adpbovah-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
+})
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World - Rizwan Wahid Mehrab Rayan Marzia!')
@@ -18,7 +22,7 @@ app.post('/', (req: Request, res: Response) => {
         message: "API is working",
         body: req?.body
     })
-    
+
 })
 
 app.listen(port, () => {
