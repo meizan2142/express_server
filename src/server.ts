@@ -3,6 +3,7 @@ import config from "./config";
 import initDB, { pool } from "./config/db";
 import { logger } from "./middleware/logger";
 import { userRoutes } from "./modules/users/user.routes";
+import { todoRoutes } from "./modules/todos/todo.routes";
 
 const app = express()
 const port = config.port
@@ -12,8 +13,7 @@ app.use(express.json());
 // * Initializing DB
 initDB();
 
-
-
+// * Main Route
 app.get('/', logger, (req: Request, res: Response) => {
     res.send('Express Server')
 })
@@ -27,32 +27,13 @@ app.use("/users", userRoutes)
 app.use("/users/:id", userRoutes)
 
 // * Update single user data
-app.put("/users/:id", userRoutes)
+app.use("/users/:id", userRoutes)
 
 // * Delete single user data
-app.delete("/users/:id", userRoutes)
+app.use("/users/:id", userRoutes)
 
 // * TODOS - CRUD Operation
-app.post("/todos", async (req: Request, res: Response) => {
-    const { user_id, title } = req.body;
-
-    try {
-        const result = await pool.query(
-            `INSERT INTO todos(user_id, title) VALUES($1, $2) RETURNING *`,
-            [user_id, title]
-        );
-        res.status(201).json({
-            success: true,
-            message: "Todo created",
-            data: result.rows[0],
-        });
-    } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            message: err.message,
-        });
-    }
-});
+app.use("/todos", todoRoutes);
 
 app.get("/todos", async (req: Request, res: Response) => {
     try {
