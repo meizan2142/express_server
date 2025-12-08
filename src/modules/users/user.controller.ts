@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { userServices } from "./user.services";
-import { pool } from "../../config/db";
 
 const createUser = async (req: Request, res: Response) => {
     const { name, email } = req.body;
@@ -86,9 +85,34 @@ const updateSingleUser = async (req: Request, res: Response) => {
     }
 }
 
+const deleteSingleUser = async (req: Request, res: Response) => {
+    try {
+        const result = await userServices.deleteSingleUser(req.params.id!)
+        if (result.rowCount === 0) {
+            res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: "User deleted successfully",
+                data: result.rows
+            })
+        }
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
 export const userControllers = {
     createUser,
     getUser,
     getSingleUser,
-    updateSingleUser
+    updateSingleUser,
+    deleteSingleUser
 }

@@ -28,30 +28,9 @@ app.use("/users/:id", userRoutes)
 
 // * Update single user data
 app.put("/users/:id", userRoutes)
+
 // * Delete single user data
-app.delete("/users/:id", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`DELETE FROM users WHERE id = $1`, [req.params.id])
-        if (result.rowCount === 0) {
-            res.status(404).json({
-                success: false,
-                message: "User not found"
-            })
-        }
-        else {
-            res.status(200).json({
-                success: true,
-                message: "User deleted successfully",
-                data: result.rows
-            })
-        }
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
-    }
-})
+app.delete("/users/:id", userRoutes)
 
 // * TODOS - CRUD Operation
 app.post("/todos", async (req: Request, res: Response) => {
