@@ -8,6 +8,12 @@ const createTodo = async (user_id: string, title: string) => {
     return result;
 }
 
+const getTodo = async () => {
+    const result = await pool.query(`SELECT * FROM todos`);
+    return result;
+}
+
 export const todoServices = {
-    createTodo
+    createTodo,
+    getTodo
 }

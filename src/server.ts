@@ -33,25 +33,10 @@ app.use("/users/:id", userRoutes)
 app.use("/users/:id", userRoutes)
 
 // * TODOS - CRUD Operation
+// * POST Method
 app.use("/todos", todoRoutes);
 
-app.get("/todos", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`SELECT * FROM todos`);
-
-        res.status(200).json({
-            success: true,
-            message: "todos retrieved successfully",
-            data: result.rows,
-        });
-    } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            message: err.message,
-            datails: err,
-        });
-    }
-});
+app.get("/todos", todoRoutes);
 
 // * Get single todo
 app.get("/todos/:id", async (req, res) => {
