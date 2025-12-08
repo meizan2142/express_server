@@ -21,24 +21,6 @@ app.get('/', logger, (req: Request, res: Response) => {
 // * CRUD Operation
 // * POST Method
 app.use("/users", userRoutes)
-// * GET Method
-// * All users
-app.get("/users", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`SELECT * FROM users`);
-        res.status(200).json({
-            success: true,
-            message: "Users retrieved successfully",
-            data: result.rows
-        })
-    }
-    catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
-    }
-})
 // * GET Single user
 app.get("/users/:id", async (req: Request, res: Response) => {
     try {
