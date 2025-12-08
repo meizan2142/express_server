@@ -19,32 +19,13 @@ app.get('/', logger, (req: Request, res: Response) => {
 })
 
 // * CRUD Operation
+
 // * POST Method
 app.use("/users", userRoutes)
+
 // * GET Single user
-app.get("/users/:id", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [req.params.id])
-        if (result.rows.length === 0) {
-            res.status(404).json({
-                success: false,
-                message: "User not found"
-            })
-        }
-        else {
-            res.status(200).json({
-                success: true,
-                message: "User fetched successfully",
-                data: result.rows[0]
-            })
-        }
-    } catch (error: any) {
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
-    }
-})
+app.use("/users/:id", userRoutes)
+
 // * Update single user data
 app.put("/users/:id", async (req: Request, res: Response) => {
     const { name, email } = req.body;
