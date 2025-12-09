@@ -20,41 +20,20 @@ app.get('/', logger, (req: Request, res: Response) => {
 
 // * CRUD Operation
 
-// * POST Method
+// * POST & GET Method
 app.use("/users", userRoutes)
 
-// * GET Single user
+// * UPDATE & DELETE
 app.use("/users/:id", userRoutes)
 
-// * Update single user data
-app.use("/users/:id", userRoutes)
-
-// * Delete single user data
-app.use("/users/:id", userRoutes)
 
 // * TODOS - CRUD Operation
 // * POST Method
 app.use("/todos", todoRoutes);
 
-app.get("/todos", todoRoutes);
 
 // * Get single todo
-app.get("/todos/:id", async (req, res) => {
-    try {
-        const result = await pool.query("SELECT * FROM todos WHERE id = $1", [
-            req.params.id,
-        ]);
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: "Todo not found" });
-        }
-
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: "Failed to fetch todo" });
-    }
-});
+app.get("/todos/:id", todoRoutes);
 
 // * Update todo
 app.put("/todos/:id", async (req, res) => {
