@@ -20,8 +20,17 @@ const getSingleTodo = async (id: string) => {
     return result;
 }
 
+const updateSingleTodo = async (title: string, completed: string, id: string) => {
+    const result = await pool.query(
+        "UPDATE todos SET title=$1, completed=$2 WHERE id=$3 RETURNING *",
+        [title, completed, id]
+    );
+    return result;
+}
+
 export const todoServices = {
     createTodo,
     getTodo,
-    getSingleTodo
+    getSingleTodo, 
+    updateSingleTodo
 }

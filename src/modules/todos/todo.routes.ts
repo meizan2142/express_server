@@ -9,4 +9,6 @@ router.get("/", todoControllers.getTodo)
 
 router.get("/:id", todoControllers.getSingleTodo)
 
+router.put("/:id", todoControllers.updateSingleTodo)
+
 export const todoRoutes = router;
