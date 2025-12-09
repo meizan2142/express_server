@@ -69,9 +69,25 @@ const updateSingleTodo = async (req: Request, res: Response) => {
     }
 }
 
+const deleteSingleTodo = async (req: Request, res: Response) => {
+    try {
+        const result = await todoServices.deleteSingleTodo(req.params.id!)
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Todo not found" });
+        }
+
+        res.json({ success: true, message: "Todo deleted", data: null });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Failed to delete todo" });
+    }
+}
+
 export const todoControllers = {
     createTodo,
     getTodo,
     getSingleTodo,
-    updateSingleTodo
+    updateSingleTodo,
+    deleteSingleTodo
 }

@@ -28,34 +28,10 @@ app.use("/users/:id", userRoutes)
 
 
 // * TODOS - CRUD Operation
-// * POST Method
+
 app.use("/todos", todoRoutes);
 
-
-// * Get single todo
-app.get("/todos/:id", todoRoutes);
-
-// * Update todo
-app.put("/todos/:id", todoRoutes);
-
-// * Delete todo
-// app.delete("/todos/:id", async (req, res) => {
-//     try {
-//         const result = await pool.query(
-//             "DELETE FROM todos WHERE id=$1 RETURNING *",
-//             [req.params.id]
-//         );
-
-//         if (result.rowCount === 0) {
-//             return res.status(404).json({ error: "Todo not found" });
-//         }
-
-//         res.json({ success: true, message: "Todo deleted", data: null });
-//     } catch (err) {
-//         console.log(err);
-//         res.status(500).json({ error: "Failed to delete todo" });
-//     }
-// });
+app.use("/todos/:id", todoRoutes);
 
 
 // * 404 route
