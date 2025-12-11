@@ -13,26 +13,18 @@ app.use(express.json());
 // * Initializing DB
 initDB();
 
-// * Main Route
+// * Root Route
 app.get('/', logger, (req: Request, res: Response) => {
     res.send('Express Server')
 })
 
-// * CRUD Operation
-
-// * POST & GET Method
+// * USERS - CRUD Operation
 app.use("/users", userRoutes)
-
-// * UPDATE & DELETE
 app.use("/users/:id", userRoutes)
 
-
 // * TODOS - CRUD Operation
-
 app.use("/todos", todoRoutes);
-
 app.use("/todos/:id", todoRoutes);
-
 
 // * 404 route
 app.use((req: Request, res: Response) => {
