@@ -4,6 +4,7 @@ import initDB, { pool } from "./config/db";
 import { logger } from "./middleware/logger";
 import { userRoutes } from "./modules/users/user.routes";
 import { todoRoutes } from "./modules/todos/todo.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 const app = express()
 const port = config.port
@@ -25,6 +26,9 @@ app.use("/users/:id", userRoutes)
 // * TODOS - CRUD Operation
 app.use("/todos", todoRoutes);
 app.use("/todos/:id", todoRoutes);
+
+//  * Auth Routes
+app.use("/auth", authRoutes)
 
 // * 404 route
 app.use((req: Request, res: Response) => {
