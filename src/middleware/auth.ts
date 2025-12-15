@@ -10,9 +10,15 @@ const auth = (...roles: string[]) => {
             if (!token) {
                 res.status(500).json({message: "You're not allowed"});
             }
-            const decoded = jwt.verify(token as string, config.jwt_secret as string);
+            const decoded = jwt.verify(token as string, config.jwt_secret as string)  as JwtPayload;
             console.log({decoded});
-            req.user = decoded as JwtPayload;
+            req.user = decoded;
+            if (roles.length && !roles.includes(decoded.role as string)) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Unauthorized"
+                })
+            }
             next();
         } catch (error: any) {
             res.status(500).json({
